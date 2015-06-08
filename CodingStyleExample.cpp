@@ -1,3 +1,42 @@
+/*****************************************************
+LIGHTING ENGINE
+******************************************************/
+
+...
+
+void LightingEngine::Create3AnglesPerPoint(HighPrecisionPoint origin)
+{
+    double offset = 0.00000001;
+    int sizeofverts = Vertices.size();
+    HighPrecisionPoint temporigin;
+
+    temporigin.x = origin.x;
+    temporigin.y = origin.y;
+    // 3 Angles per origin co-ordinates
+    for(int iverts = 0; iverts < sizeofverts; iverts++)
+    {
+        HighPrecisionPoint tempdest = Vertices[iverts];
+        double xdiff = (tempdest.x - temporigin.x);
+        double ydiff = (tempdest.y - temporigin.y);
+        double angle1 = atan2(ydiff, xdiff);
+        double angle2 = angle1 + offset;
+        double angle3 = angle1 - offset;
+        
+        //angles pushed in this order to maintain an orderly clockwise sequence
+        Angles.push_back(angle3);
+        Angles.push_back(angle1);
+        Angles.push_back(angle2);
+
+    }
+
+    Vertices.clear();
+}
+
+...
+
+
+
+
 /*****************************************
 CONSOLE OBJECT
 *****************************************/
@@ -167,40 +206,3 @@ void ConsoleObject::ExecuteConsole()
 
 ...
 
-
-
-/*****************************************************
-LIGHTING ENGINE
-******************************************************/
-
-...
-
-void LightingEngine::Create3AnglesPerPoint(HighPrecisionPoint origin)
-{
-    double offset = 0.00000001;
-    int sizeofverts = Vertices.size();
-    HighPrecisionPoint temporigin;
-
-    temporigin.x = origin.x;
-    temporigin.y = origin.y;
-    // 3 Angles per origin co-ordinates
-    for(int iverts = 0; iverts < sizeofverts; iverts++)
-    {
-        HighPrecisionPoint tempdest = Vertices[iverts];
-        double xdiff = (tempdest.x - temporigin.x);
-        double ydiff = (tempdest.y - temporigin.y);
-        double angle1 = atan2(ydiff, xdiff);
-        double angle2 = angle1 + offset;
-        double angle3 = angle1 - offset;
-        
-        //angles pushed in this order to maintain an orderly clockwise sequence
-        Angles.push_back(angle3);
-        Angles.push_back(angle1);
-        Angles.push_back(angle2);
-
-    }
-
-    Vertices.clear();
-}
-
-...
